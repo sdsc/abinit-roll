@@ -83,7 +83,6 @@ module files in:
 /opt/modulefiles/applications/abinit
 ```
 
-
 ## Testing
 
 The abinit-roll includes a test script which can be run to verify proper
