@@ -103,8 +103,6 @@ CACHE_DIR=$(REDHAT.ROOT)/cache
 build: $(SRC_DIRS)
 	/bin/mkdir -p .abinit/tarballs
 	/bin/cp *gz .abinit/tarballs/
-	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
-	$(PKGROOT_BIND_MOUNT)
 	( \
           $(MODULE_LOAD_CC); \
           $(MODULE_LOAD_MPI); \
@@ -136,12 +134,13 @@ build: $(SRC_DIRS)
               cp src/98_main/abinit $(PKGROOT)/bin/abinit.cuda; \
           fi \
         )
-	$(PKGROOT_BIND_UMOUNT)
 	@echo "::: Package $(NAME) build complete :::"
 
 install::
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
 	( \
+          cp -r $(PKGROOT)/* $(ROOT)/$(PKGROOT); \
+          rm -rf $(PKGROOT); \
 	  cd $(SOURCE_DIR); \
  	  if test "$(CUDABUILD)" = "yes"; then \
              cd $(CACHE_DIR)/magma/lib; \
