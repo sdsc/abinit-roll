@@ -1,0 +1,9 @@
+#%Module1.0
+module-whatis "Name: abinit"
+module-whatis "Version: VERSION"
+module-whatis "Category: Application"
+module-whatis "Description: calculates electronic structure properties within Density Functional Theory (DFT), using pseudopotentials and a planewave or wavelet basis."
+module-whatis "URL: http://www.abinit.org"
+prepend-path PATH /opt/abinit/bin
+prepend-path LD_LIBRARY_PATH /opt/abinit/lib
+module load ROLLCOMPILER mkl ROLLMPI netcdf
