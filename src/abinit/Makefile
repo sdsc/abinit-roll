@@ -143,7 +143,6 @@ install::
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
 	( \
 	  cd $(SOURCE_DIR); \
-          cp ../t01.files $(ROOT)/$(PKGROOT)/share/abinit-test/paral/Input; \
           cd $(CACHE_DIR)/magma/lib; \
           cp -r * $(ROOT)/$(PKGROOT)/lib \
         ) 
