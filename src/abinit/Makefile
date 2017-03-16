@@ -118,7 +118,7 @@ build: $(SRC_DIRS)
           export FC=$(FC); \
           export MKLLIB=`find $${MKLHOME}/lib/* -maxdepth 0 | head -1`; \
  	  cd $(SOURCE_DIR); \
- 	  ./configure --enable-mpi  --enable-mpi_io --with-mpi-prefix=$${MPIHOME} --prefix=$(PKGROOT) --with-dft-flavor=atompaw+libxc+bigdft+wannier90 --with-netcdf-incs=-I$${NETCDFHOME}/include --with-netcdf-libs="-L$${NETCDFHOME}/lib -lnetcdff -lnetcdf" --with-linalg-flavor=mkl --with-linalg-libs="-L$${MKLLIB} -lmkl_$(COMPILERTYPE)_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl" --enable-fallbacks --with-trio-flavor=netcdf+etsf_io --enable-atompaw=yes --enable-bigdft=yes --enable-etsf-io=yes --enable-libxc=yes --enable-linalg=yes --enable-netcdf=yes --enable-wannier90=yes; \
+ 	  ./configure --enable-mpi  --enable-mpi_io --with-mpi-prefix=$${MPIHOME} --prefix=$(ROOT)/$(PKGROOT) --with-dft-flavor=atompaw+libxc+bigdft+wannier90 --with-netcdf-incs=-I$${NETCDFHOME}/include --with-netcdf-libs="-L$${NETCDFHOME}/lib -lnetcdff -lnetcdf" --with-linalg-flavor=mkl --with-linalg-libs="-L$${MKLLIB} -lmkl_$(COMPILERTYPE)_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl" --enable-fallbacks --with-trio-flavor=netcdf+etsf_io --enable-atompaw=yes --enable-bigdft=yes --enable-etsf-io=yes --enable-libxc=yes --enable-linalg=yes --enable-netcdf=yes --enable-wannier90=yes; \
  	  make; \
  	  make install; \
  	  if test "$(CUDABUILD)" = "yes"; then \
@@ -133,7 +133,7 @@ build: $(SRC_DIRS)
  	      export LD_LIBRARY_PATH=$(CACHE_DIR)/magma/lib:$${LD_LIBRARY_PATH}; \
               ./configure --enable-mpi  --enable-mpi_io --with-mpi-prefix=$${MPIHOME} $(CUDAOPTS) --prefix=$(PKGROOT) --with-dft-flavor=atompaw+libxc+bigdft+wannier90 --with-netcdf-incs=-I$${NETCDFHOME}/include --with-netcdf-libs="-L$${NETCDFHOME}/lib -lnetcdff -lnetcdf" --with-linalg-flavor=mkl+magma --with-linalg-libs="-L$${MKLLIB} -L$(CACHE_DIR)/magma/lib -lmkl_$(COMPILERTYPE)_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl -lmagma" --enable-fallbacks --with-trio-flavor=netcdf+etsf_io --enable-atompaw=yes --enable-bigdft=yes --enable-etsf-io=yes --enable-libxc=yes --enable-linalg=yes --enable-netcdf=yes --enable-wannier90=yes; \
               make; \
-              cp src/98_main/abinit $(PKGROOT)/bin/abinit.cuda; \
+              cp src/98_main/abinit $(ROOT)/$(PKGROOT)/bin/abinit.cuda; \
           fi \
         )
 	$(PKGROOT_BIND_UMOUNT)
