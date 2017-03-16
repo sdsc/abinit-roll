@@ -103,8 +103,8 @@ CACHE_DIR=$(REDHAT.ROOT)/cache
 build: $(SRC_DIRS)
 	/bin/mkdir -p .abinit/tarballs
 	/bin/cp *gz .abinit/tarballs/
-	$(PKGROOT_BIND_MOUNT)
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
+	$(PKGROOT_BIND_MOUNT)
 	( \
           $(MODULE_LOAD_CC); \
           $(MODULE_LOAD_MPI); \
