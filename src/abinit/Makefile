@@ -143,8 +143,10 @@ install::
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
 	( \
 	  cd $(SOURCE_DIR); \
-          cd $(CACHE_DIR)/magma/lib; \
-          cp -r * $(ROOT)/$(PKGROOT)/lib \
+ 	  if test "$(CUDABUILD)" = "yes"; then \
+             cd $(CACHE_DIR)/magma/lib; \
+             cp -r * $(ROOT)/$(PKGROOT)/lib; \
+          fi \
         ) 
 	$(INSTALL_LICENSE_FILES)
 	@echo "::: Package $(NAME) install complete :::"
