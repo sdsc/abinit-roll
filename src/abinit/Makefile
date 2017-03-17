@@ -140,7 +140,6 @@ install::
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
 	( \
           cp -r $(PKGROOT)/* $(ROOT)/$(PKGROOT); \
-          rm -rf $(PKGROOT); \
 	  cd $(SOURCE_DIR); \
  	  if test "$(CUDABUILD)" = "yes"; then \
              cd $(CACHE_DIR)/magma/lib; \
@@ -151,4 +150,4 @@ install::
 	@echo "::: Package $(NAME) install complete :::"
 
 clean::
-	rm -rf $(SRC_DIRS) $(SOURCE_DIR) _arch DESCRIPTION LICENSE .abinit
+	rm -rf $(SRC_DIRS) $(SOURCE_DIR) $(PKGROOT) _arch DESCRIPTION LICENSE .abinit
