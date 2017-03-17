@@ -58,7 +58,7 @@ close(OUT);
 
 SKIP: {
     skip "abinit not installed", 3 if ! -d "/opt/abinit";
-    my ($noVersion) = abinit =~ m#([^/]+)#;
+    my ($noVersion) = "abinit" =~ m#([^/]+)#;
     `/bin/ls /opt/modulefiles/applications/$noVersion/[0-9]* 2>&1`;
     ok($? == 0, "abinit module installed");
     `/bin/ls /opt/modulefiles/applications/$noVersion/.version.[0-9]* 2>&1`;
