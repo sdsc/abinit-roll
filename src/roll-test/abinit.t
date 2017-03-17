@@ -62,7 +62,7 @@ SKIP: {
     `/bin/ls /opt/modulefiles/applications/$noVersion/[0-9]* 2>&1`;
     ok($? == 0, "abinit module installed");
     `/bin/ls /opt/modulefiles/applications/$noVersion/.version.[0-9]* 2>&1`;
-    ok($? == 0, "$package version module installed");
+    ok($? == 0, "abinit version module installed");
     ok(-l "/opt/modulefiles/applications/$noVersion/.version",
-       "$package version module link created");
+       "abinit version module link created");
 }
