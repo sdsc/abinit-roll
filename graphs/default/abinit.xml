@@ -11,15 +11,18 @@
 	All rights reserved. Rocks(r) v6.1.1 www.rocksclusters.org
 	</copyright>
 
-	<!-- add edges here -->
-	<edge from="client">
-		<to>abinit-client</to>
-	</edge>
-
-	<!-- enforce post section ordering -->
-	<!-- abinit-base post sections execute after base post sections -->
-	<order head="client">
-		<tail>abinit-client</tail>
-	</order>
+        <edge from="login">
+          <to>abinit-client</to>
+        </edge>
+        <order head="login">
+          <tail>abinit-client</tail>
+        </order>
+        
+        <edge from="compute">
+          <to>abinit-client</to>
+        </edge>
+        <order head="compute">
+          <tail>abinit-client</tail>
+        </order>
 
 </graph>

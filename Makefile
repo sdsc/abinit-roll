@@ -68,5 +68,5 @@ default:
 	$(MAKE) ROLLCOMPILER="$(ROLLCOMPILER)" ROLLMPI="$(ROLLMPI)" roll
 
 distclean:: clean
-	-rm -f _arch build.log cache
+	-rm -rf _arch build.log cache
 	-rm -rf RPMS SRPMS

@@ -77,6 +77,12 @@ ifneq ("$(ROLLOPTS)", "$(subst cuda,,$(ROLLOPTS))")
   CUDAOPTS = --enable-gpu --with-gpu-flavor=cuda-double --with-gpu-prefix=$${CUDAHOME}
   CUDABUILD = yes
 endif
+
+MODULE_LOAD_ABINIT_CUDA = $(call MODULE_LOAD_PACKAGE, $(CUDAVERSION), CUDAHOME)
+DESCRIBE_ABINIT_CUDA = echo built with cuda $(call GET_MODULE_VERSION, $(CUDAVERSION))
+
+MODULE_LOAD_ABINIT_MKL = $(call MODULE_LOAD_PACKAGE, $(MKLVERSION), MKLHOME)
+DESCRIBE_ABINIT_MKL = echo built with mkl $(call GET_MODULE_VERSION, $(MKLVERSION))
   
 
 $(NAME).spec: DESCRIPTION LICENSE
@@ -88,9 +94,9 @@ DESCRIPTION:
 	  $(DESCRIBE_CC); \
 	  $(DESCRIBE_MPI); \
           $(DESCRIBE_NETCDF); \
-          $(DESCRIBE_MKL); \
+          $(DESCRIBE_ABINIT_MKL); \
 	  if test "$(CUDABUILD)" = "yes"; then \
-	    $(DESCRIBE_CUDA); \
+	    $(DESCRIBE_ABINIT_CUDA); \
 	  fi \
 	) > $@
 
@@ -103,11 +109,12 @@ CACHE_DIR=$(REDHAT.ROOT)/cache
 build: $(SRC_DIRS)
 	/bin/mkdir -p .abinit/tarballs
 	/bin/cp *gz .abinit/tarballs/
+	patch $(MAGMA_DIR)/Makefile patch-files/Makefile.patch
 	( \
           $(MODULE_LOAD_CC); \
           $(MODULE_LOAD_MPI); \
           $(MODULE_LOAD_NETCDF); \
-          $(MODULE_LOAD_MKL); \
+          $(MODULE_LOAD_ABINIT_MKL); \
           export CFLAGS="$(COMPILER_FLAGS)"; \
           export CXXFLAGS="$(COMPILER_FLAGS)"; \
           export FCFLAGS="$(COMPILER_FLAGS)"; \
@@ -116,20 +123,20 @@ build: $(SRC_DIRS)
           export FC=$(FC); \
           export MKLLIB=`find $${MKLHOME}/lib/* -maxdepth 0 | head -1`; \
  	  cd $(SOURCE_DIR); \
- 	  ./configure --enable-mpi  --enable-mpi_io --with-mpi-prefix=$${MPIHOME} --prefix=$(PKGROOT) --with-dft-flavor=atompaw+libxc+bigdft+wannier90 --with-netcdf-incs=-I$${NETCDFHOME}/include --with-netcdf-libs="-L$${NETCDFHOME}/lib -lnetcdff -lnetcdf" --with-linalg-flavor=mkl --with-linalg-libs="-L$${MKLLIB} -lmkl_$(COMPILERTYPE)_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl" --enable-fallbacks --with-trio-flavor=netcdf+etsf_io --enable-atompaw=yes --enable-bigdft=yes --enable-etsf-io=yes --enable-libxc=yes --enable-linalg=yes --enable-netcdf=yes --enable-wannier90=yes; \
+ 	  ./configure --enable-mpi  --enable-mpi_io --with-mpi-prefix=$${MPIHOME} --prefix=$(PKGROOT) --with-dft-flavor=atompaw+libxc+bigdft+wannier90 --with-netcdf-incs=-I$${NETCDFHOME}/include --with-netcdf-libs="-L$${NETCDFHOME}/lib -lnetcdff -lnetcdf" --with-linalg-flavor=mkl --with-linalg-libs="-L$${MKLLIB} -lmkl_$(COMPILERTYPE)_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl" --enable-fallbacks --with-trio-flavor=netcdf --enable-atompaw=yes --enable-bigdft=yes --enable-etsf-io=yes --enable-libxc=yes --enable-linalg=yes --enable-netcdf=yes --enable-wannier90=yes; \
  	  make; \
  	  make install; \
  	  if test "$(CUDABUILD)" = "yes"; then \
  	      cd ..; \
- 	      $(MODULE_LOAD_CUDA); \
+ 	      $(MODULE_LOAD_ABINIT_CUDA); \
  	      export CUDADIR=$${CUDAHOME}; \
- 	      cp make.inc.$(COMPILERNAME) $(MAGMA_DIR)/make.inc; \
+ 	      cp $(MAGMA_DIR)/make.inc-examples/make.inc.mkl-$(CC) $(MAGMA_DIR)/make.inc; \
  	      cd $(MAGMA_DIR); \
  	      make install prefix=$(CACHE_DIR)/magma; \
  	      cd ../$(SOURCE_DIR); \
  	      make distclean; \
  	      export LD_LIBRARY_PATH=$(CACHE_DIR)/magma/lib:$${LD_LIBRARY_PATH}; \
-              ./configure --enable-mpi  --enable-mpi_io --with-mpi-prefix=$${MPIHOME} $(CUDAOPTS) --prefix=$(PKGROOT) --with-dft-flavor=atompaw+libxc+bigdft+wannier90 --with-netcdf-incs=-I$${NETCDFHOME}/include --with-netcdf-libs="-L$${NETCDFHOME}/lib -lnetcdff -lnetcdf" --with-linalg-flavor=mkl+magma --with-linalg-libs="-L$${MKLLIB} -L$(CACHE_DIR)/magma/lib -lmkl_$(COMPILERTYPE)_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl -lmagma" --enable-fallbacks --with-trio-flavor=netcdf+etsf_io --enable-atompaw=yes --enable-bigdft=yes --enable-etsf-io=yes --enable-libxc=yes --enable-linalg=yes --enable-netcdf=yes --enable-wannier90=yes; \
+              ./configure --enable-mpi  --enable-mpi_io --with-mpi-prefix=$${MPIHOME} $(CUDAOPTS) --prefix=$(PKGROOT) --with-dft-flavor=atompaw+libxc+bigdft+wannier90 --with-netcdf-incs=-I$${NETCDFHOME}/include --with-netcdf-libs="-L$${NETCDFHOME}/lib -lnetcdff -lnetcdf" --with-linalg-flavor=mkl+magma --with-linalg-libs="-L$${MKLLIB} -L$(CACHE_DIR)/magma/lib -lmkl_$(COMPILERTYPE)_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl -lmagma" --enable-fallbacks --with-trio-flavor=netcdf --enable-atompaw=yes --enable-bigdft=yes --enable-etsf-io=yes --enable-libxc=yes --enable-linalg=yes --enable-netcdf=yes --enable-wannier90=yes; \
               make; \
               cp src/98_main/abinit $(PKGROOT)/bin/abinit.cuda; \
           fi \
