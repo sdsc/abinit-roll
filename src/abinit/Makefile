@@ -132,11 +132,11 @@ build: $(SRC_DIRS)
  	      export CUDADIR=$${CUDAHOME}; \
  	      cp $(MAGMA_DIR)/make.inc-examples/make.inc.mkl-$(CC) $(MAGMA_DIR)/make.inc; \
  	      cd $(MAGMA_DIR); \
- 	      make install prefix=$(CACHE_DIR)/magma; \
+ 	      make install prefix=$(CACHE_DIR); \
  	      cd ../$(SOURCE_DIR); \
  	      make distclean; \
- 	      export LD_LIBRARY_PATH=$(CACHE_DIR)/magma/lib:$${LD_LIBRARY_PATH}; \
-              ./configure --enable-mpi  --enable-mpi_io --with-mpi-prefix=$${MPIHOME} $(CUDAOPTS) --prefix=$(CACHE_DIR) --with-dft-flavor=atompaw+libxc+bigdft+wannier90 --with-netcdf-incs=-I$${NETCDFHOME}/include --with-netcdf-libs="-L$${NETCDFHOME}/lib -lnetcdff -lnetcdf" --with-linalg-flavor=mkl+magma --with-linalg-libs="-L$${MKLLIB} -L$(CACHE_DIR)/magma/lib -lmkl_$(COMPILERTYPE)_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl -lmagma" --enable-fallbacks --with-trio-flavor=netcdf --enable-atompaw=yes --enable-bigdft=yes --enable-etsf-io=yes --enable-libxc=yes --enable-linalg=yes --enable-netcdf=yes --enable-wannier90=yes; \
+ 	      export LD_LIBRARY_PATH=$(CACHE_DIR)/lib:$${LD_LIBRARY_PATH}; \
+              ./configure --enable-mpi  --enable-mpi_io --with-mpi-prefix=$${MPIHOME} $(CUDAOPTS) --prefix=$(CACHE_DIR) --with-dft-flavor=atompaw+libxc+bigdft+wannier90 --with-netcdf-incs=-I$${NETCDFHOME}/include --with-netcdf-libs="-L$${NETCDFHOME}/lib -lnetcdff -lnetcdf" --with-linalg-flavor=mkl+magma --with-linalg-libs="-L$${MKLLIB} -L$(CACHE_DIR)/lib -lmkl_$(COMPILERTYPE)_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl -lmagma" --enable-fallbacks --with-trio-flavor=netcdf --enable-atompaw=yes --enable-bigdft=yes --enable-etsf-io=yes --enable-libxc=yes --enable-linalg=yes --enable-netcdf=yes --enable-wannier90=yes; \
               make; \
               cp src/98_main/abinit $(CACHE_DIR)/bin/abinit.cuda; \
           fi \
@@ -145,16 +145,9 @@ build: $(SRC_DIRS)
 
 install::
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
-	( \
-          cp -r $(CACHE_DIR)/* $(ROOT)/$(PKGROOT); \
-	  cd $(SOURCE_DIR); \
- 	  if test "$(CUDABUILD)" = "yes"; then \
-             cd $(CACHE_DIR)/magma/lib; \
-             cp -r * $(ROOT)/$(PKGROOT)/lib; \
-          fi \
-        ) 
+	cp -r $(CACHE_DIR)/* $(ROOT)/$(PKGROOT); \
 	$(INSTALL_LICENSE_FILES)
 	@echo "::: Package $(NAME) install complete :::"
 
 clean::
-	rm -rf $(SRC_DIRS) $(SOURCE_DIR) $(PKGROOT) _arch DESCRIPTION LICENSE .abinit
+	rm -rf $(SRC_DIRS) $(SOURCE_DIR) _arch DESCRIPTION LICENSE .abinit
