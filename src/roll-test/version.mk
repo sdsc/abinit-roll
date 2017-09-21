@@ -1,7 +1,7 @@
 NAME       = sdsc-abinit-roll-test
 VERSION    = 2
 RELEASE    = 0
-PKGROOT    = /home/jpg/cometscratch/abinit-roll/src/roll-test/test
+PKGROOT    = /root/rolltests
 
 ifneq ("$(ROLLOPTS)", "$(subst cuda=,,$(ROLLOPTS))")
   CUDAVER = $(subst cuda=,,$(filter cuda=%,$(ROLLOPTS)))
