@@ -17,8 +17,6 @@ ifneq ("$(ROLLOPTS)", "$(subst mkl=,,$(ROLLOPTS))")
 endif
 
 
-GPU_TARGET = Kepler Maxwell Pascal
-
 
 PKGROOT        = /opt/abinit
 NAME           = sdsc-abinit

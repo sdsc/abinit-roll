@@ -110,6 +110,8 @@ build: $(SRC_DIRS)
 	/bin/mkdir -p .abinit/tarballs
 	/bin/cp *gz .abinit/tarballs/
 	patch $(MAGMA_DIR)/Makefile patch-files/Makefile.patch
+	patch $(MAGMA_DIR)/make.inc-examples/make.inc.mkl-icc patch-files/make.inc.mkl-icc.patch
+	patch $(SOURCE_DIR)/configure patch-files/configure.patch
 	( \
           $(MODULE_LOAD_CC); \
           $(MODULE_LOAD_MPI); \
@@ -135,8 +137,12 @@ build: $(SRC_DIRS)
  	      make install prefix=$(CACHE_DIR); \
  	      cd ../$(SOURCE_DIR); \
  	      make distclean; \
- 	      export LD_LIBRARY_PATH=$(CACHE_DIR)/lib:$${LD_LIBRARY_PATH}; \
-              ./configure --enable-mpi  --enable-mpi_io --with-mpi-prefix=$${MPIHOME} $(CUDAOPTS) --prefix=$(CACHE_DIR) --with-dft-flavor=atompaw+libxc+bigdft+wannier90 --with-netcdf-incs=-I$${NETCDFHOME}/include --with-netcdf-libs="-L$${NETCDFHOME}/lib -lnetcdff -lnetcdf" --with-linalg-flavor=mkl+magma --with-linalg-libs="-L$${MKLLIB} -L$(CACHE_DIR)/lib -lmkl_$(COMPILERTYPE)_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl -lmagma" --enable-fallbacks --with-trio-flavor=netcdf --enable-atompaw=yes --enable-bigdft=yes --enable-etsf-io=yes --enable-libxc=yes --enable-linalg=yes --enable-netcdf=yes --enable-wannier90=yes; \
+ 	      export LD_LIBRARY_PATH=$(CACHE_DIR)/lib:/usr/lib64/nvidia:$${LD_LIBRARY_PATH}; \
+              if test -e "/usr/lib64/nvidia"; then \
+                    export LDFLAGS=-L/usr/lib64/nvidia; \
+                    export LIBS=-lnvidia-fatbinaryloader; \
+              fi; \
+              ./configure --enable-mpi  --enable-mpi_io --with-mpi-prefix=$${MPIHOME} $(CUDAOPTS) --prefix=$(CACHE_DIR) --with-dft-flavor=atompaw+libxc+bigdft+wannier90 --with-netcdf-incs=-I$${NETCDFHOME}/include --with-netcdf-libs="-L$${NETCDFHOME}/lib -lnetcdff -lnetcdf" --with-linalg-flavor=mkl+magma --with-linalg-libs="-L$${MKLLIB} -L$(CACHE_DIR)/lib -lmkl_$(COMPILERTYPE)_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl -lmagma" --enable-fallbacks --with-trio-flavor=netcdf --enable-atompaw=yes --enable-bigdft=yes --enable-etsf-io=yes --enable-libxc=yes --enable-linalg=yes --enable-netcdf=yes --enable-wannier90=yes: \
               make; \
               cp src/98_main/abinit $(CACHE_DIR)/bin/abinit.cuda; \
           fi \
