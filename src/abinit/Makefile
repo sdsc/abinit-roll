@@ -156,4 +156,4 @@ install::
 	@echo "::: Package $(NAME) install complete :::"
 
 clean::
-	rm -rf $(SRC_DIRS) $(SOURCE_DIR) _arch DESCRIPTION LICENSE .abinit
+	rm -rf $(SRC_DIRS) $(BIGDFT_DIR) _arch DESCRIPTION LICENSE .abinit
