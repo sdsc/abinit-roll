@@ -126,7 +126,7 @@ build: $(SRC_DIRS)
           export MKLLIB=`find $${MKLHOME}/lib/* -maxdepth 0 | head -1`; \
  	  cd $(SOURCE_DIR); \
  	  ./configure --enable-mpi  --enable-mpi_io --with-mpi-prefix=$${MPIHOME} --prefix=$(CACHE_DIR) --with-dft-flavor=atompaw+libxc+bigdft+wannier90 --with-netcdf-incs=-I$${NETCDFHOME}/include --with-netcdf-libs="-L$${NETCDFHOME}/lib -lnetcdff -lnetcdf" --with-linalg-flavor=mkl --with-linalg-libs="-L$${MKLLIB} -lmkl_$(COMPILERTYPE)_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl" --enable-fallbacks --with-trio-flavor=netcdf --enable-atompaw=yes --enable-bigdft=yes --enable-etsf-io=yes --enable-libxc=yes --enable-linalg=yes --enable-netcdf=yes --enable-wannier90=yes; \
- 	  make; \
+ 	  make -j 16; \
  	  make install; \
  	  if test "$(CUDABUILD)" = "yes"; then \
  	      cd ..; \
@@ -134,7 +134,7 @@ build: $(SRC_DIRS)
  	      export CUDADIR=$${CUDAHOME}; \
  	      cp $(MAGMA_DIR)/make.inc-examples/make.inc.mkl-$(CC) $(MAGMA_DIR)/make.inc; \
  	      cd $(MAGMA_DIR); \
- 	      make install prefix=$(CACHE_DIR); \
+ 	      make -j 16 install prefix=$(CACHE_DIR); \
  	      cd ../$(SOURCE_DIR); \
  	      make distclean; \
  	      export LD_LIBRARY_PATH=$(CACHE_DIR)/lib:/usr/lib64/nvidia:$${LD_LIBRARY_PATH}; \
@@ -143,7 +143,7 @@ build: $(SRC_DIRS)
                     export LIBS=-lnvidia-fatbinaryloader; \
               fi; \
               ./configure --enable-mpi  --enable-mpi_io --with-mpi-prefix=$${MPIHOME} $(CUDAOPTS) --prefix=$(CACHE_DIR) --with-dft-flavor=atompaw+libxc+bigdft+wannier90 --with-netcdf-incs=-I$${NETCDFHOME}/include --with-netcdf-libs="-L$${NETCDFHOME}/lib -lnetcdff -lnetcdf" --with-linalg-flavor=mkl+magma --with-linalg-libs="-L$${MKLLIB} -L$(CACHE_DIR)/lib -lmkl_$(COMPILERTYPE)_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl -lmagma" --enable-fallbacks --with-trio-flavor=netcdf --enable-atompaw=yes --enable-bigdft=yes --enable-etsf-io=yes --enable-libxc=yes --enable-linalg=yes --enable-netcdf=yes --enable-wannier90=yes; \
-              make; \
+              make -j 16 ; \
               cp src/98_main/abinit $(CACHE_DIR)/bin/abinit.cuda; \
           fi \
         )
