@@ -8,3 +8,4 @@ ifneq ("$(ROLLOPTS)", "$(subst cuda=,,$(ROLLOPTS))")
 endif
 
 RPM.EXTRAS = AutoReq:No
+RPM.PREFIX  = $(PKGROOT)
