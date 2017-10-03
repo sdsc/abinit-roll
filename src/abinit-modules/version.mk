@@ -2,7 +2,7 @@ PACKAGE     = abinit
 CATEGORY    = applications
 
 NAME        = sdsc-$(PACKAGE)-modules
-RELEASE     = 1
+RELEASE     = 2
 PKGROOT     = /opt/modulefiles/$(CATEGORY)/$(PACKAGE)
 
 MKLVERSION=mkl

@@ -1,6 +1,6 @@
 NAME       = sdsc-abinit-roll-test
 VERSION    = 2
-RELEASE    = 0
+RELEASE    = 1
 PKGROOT    = /root/rolltests
 
 ifneq ("$(ROLLOPTS)", "$(subst cuda=,,$(ROLLOPTS))")
@@ -8,4 +8,4 @@ ifneq ("$(ROLLOPTS)", "$(subst cuda=,,$(ROLLOPTS))")
 endif
 
 RPM.EXTRAS = AutoReq:No
-RPM.PREFIX  = $(PKGROOT)/abinit.t
+RPM.FILES  = $(PKGROOT)/abinit.t
