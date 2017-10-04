@@ -56,7 +56,7 @@ close(OUT);
     skip 'CUDA_VISIBLE_DEVICES undef', 1
       if ! defined($ENV{'CUDA_VISIBLE_DEVICES'});
       $output1 = `cat $TESTFILE.dir/t01.out 2>&1`;
-      $output2 = `bash $TESTFILE.sh cuda/8.0 .cuda 2>&1`;
+      $output2 = `bash $TESTFILE.sh CUDAVER .cuda 2>&1`;
       ok($output1 =~ /etotal1    -1.070821.*E\Q+\E01/i, 'abinit cuda sample run');
       ok($output2 =~ /Graphic Card Properties/, 'abinit cuda device detected');
   }
