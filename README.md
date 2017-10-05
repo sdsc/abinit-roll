@@ -76,13 +76,13 @@ To install, execute these instructions on a Rocks frontend:
 ```
 
 Subsequent installs of compute and login nodes will then include the contents
-of the abint-roll.  To avoid cluttering the cluster frontend with unused
-software, the abint-roll is configured to install only on compute and
+of the abinit-roll.  To avoid cluttering the cluster frontend with unused
+software, the abinit-roll is configured to install only on compute and
 login nodes. To force installation on your frontend, run this command after
-adding the abint-roll to your distro
+adding the abinit-roll to your distro
 
 ```shell
-% rocks run roll abint host=NAME | bash
+% rocks run roll abinit host=NAME | bash
 ```
 
 where NAME is the DNS name of a compute or login node in your cluster.
