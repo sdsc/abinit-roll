@@ -7,5 +7,6 @@ include $(SDSCDEVEL)/Rules.mk
 build:
 
 install:: typical-roll-test-install
+	 perl -pi -e "s!CUDAVER!$(CUDAVER)!" $(ROOT)/$(PKGROOT)/abinit.t
 
 clean::

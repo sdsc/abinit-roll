@@ -1,0 +1,23 @@
+--- magma-2.2.0/Makefile	2016-11-20 17:21:13.000000000 -0800
++++ patch-files/Makefile	2017-08-09 17:54:14.107170330 -0700
+@@ -73,7 +73,7 @@
+     GPU_TARGET += sm20
+ endif
+ ifneq ($(findstring Kepler, $(GPU_TARGET)),)
+-    GPU_TARGET += sm30 sm35
++    GPU_TARGET += sm30 sm35 sm37
+ endif
+ ifneq ($(findstring Maxwell, $(GPU_TARGET)),)
+     GPU_TARGET += sm50 sm52
+@@ -121,6 +121,11 @@
+     NV_SM    += -gencode arch=compute_35,code=sm_35
+     NV_COMP  := -gencode arch=compute_35,code=compute_35
+ endif
++ifneq ($(findstring sm37, $(GPU_TARGET)),)
++    MIN_ARCH ?= 370
++    NV_SM    += -gencode arch=compute_37,code=sm_37
++    NV_COMP  := -gencode arch=compute_37,code=compute_37
++endif
+ ifneq ($(findstring sm50, $(GPU_TARGET)),)
+     MIN_ARCH ?= 500
+     NV_SM    += -gencode arch=compute_50,code=sm_50

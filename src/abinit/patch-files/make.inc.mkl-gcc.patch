@@ -1,0 +1,10 @@
+--- magma-2.2.0/make.inc-examples/make.inc.mkl-gcc	2016-11-20 17:20:04.000000000 -0800
++++ patch-files/make.inc.mkl-gcc	2017-09-27 10:14:22.744086873 -0700
+@@ -17,6 +17,7 @@
+ # See http://developer.nvidia.com/cuda-gpus
+ #
+ #GPU_TARGET ?= Fermi Kepler
++GPU_TARGET = Kepler Maxwell Pascal
+ 
+ # --------------------
+ # programs

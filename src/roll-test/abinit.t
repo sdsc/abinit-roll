@@ -30,7 +30,7 @@ SKIP: {
  `mkdir $TESTFILE.dir`;
  open(OUT, ">$TESTFILE.sh");
  print OUT <<END;
-module load abinit
+module load abinit \$1
 cd $TESTFILE.dir
 cp $packageHome/share/abinit-test/gpu/Input/t01.in .
 cat <<ENDIT > t01.files
@@ -42,9 +42,9 @@ t01_Xx
 $packageHome/share/abinit-test/Psps_for_tests/31ga.pspnc
 $packageHome/share/abinit-test/Psps_for_tests/33as.pspnc
 ENDIT
-output=`mpirun -np 4 $packageHome/bin/abinit <t01.files 2>&1`
+output=`mpirun -np 4 $packageHome/bin/abinit\$2 <t01.files 2>&1`
 if [[ "\$output" =~ "run-as-root" ]]; then
-  output=`mpirun --allow-run-as-root -np 4 $packageHome/bin/abinit <t01.files 2>&1`
+  output=`mpirun --allow-run-as-root -np 4 $packageHome/bin/abinit\$2 <t01.files 2>&1`
 fi
 echo \$output
 END
@@ -52,6 +52,14 @@ close(OUT);
   $output = `bash $TESTFILE.sh 2>&1`;
   $output=`cat $TESTFILE.dir/t01.out 2>&1`;
   ok($output =~ /etotal1    -1.070821.*E\Q+\E01/i, 'abinit sample run');
+  SKIP: {
+    skip 'CUDA_VISIBLE_DEVICES undef', 1
+      if ! defined($ENV{'CUDA_VISIBLE_DEVICES'});
+      $output1 = `cat $TESTFILE.dir/t01.out 2>&1`;
+      $output2 = `bash $TESTFILE.sh CUDAVER .cuda 2>&1`;
+      ok($output1 =~ /etotal1    -1.070821.*E\Q+\E01/i, 'abinit cuda sample run');
+      ok($output2 =~ /Graphic Card Properties/, 'abinit cuda device detected');
+  }
   `rm -rf $TESTFILE*`;
 }
 
