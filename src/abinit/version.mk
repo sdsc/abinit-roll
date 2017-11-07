@@ -21,7 +21,7 @@ endif
 PKGROOT        = /opt/abinit
 NAME           = sdsc-abinit
 VERSION        = 8.4.2
-RELEASE        = 0
+RELEASE        = 1
 
 SRC_SUBDIR     = abinit
 

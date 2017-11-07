@@ -121,7 +121,7 @@ build: $(SRC_DIRS)
           export CC=$(CC); \
           export CXX=$(CXX); \
           export FC=$(FC); \
-          export MKLLIB=`find $${MKLHOME}/lib/* -maxdepth 0 | head -1`; \
+          export MKLLIB=$${MKLHOME}/lib/intel64; \
  	  cd $(SOURCE_DIR); \
  	  ./configure --enable-mpi  --enable-mpi_io --with-mpi-prefix=$${MPIHOME} --prefix=$(CACHE_DIR) --with-dft-flavor=atompaw+libxc+bigdft+wannier90 --with-netcdf-incs=-I$${NETCDFHOME}/include --with-netcdf-libs="-L$${NETCDFHOME}/lib -lnetcdff -lnetcdf" --with-linalg-flavor=mkl --with-linalg-libs="-L$${MKLLIB} -lmkl_$(COMPILERTYPE)_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl" --enable-fallbacks --with-trio-flavor=netcdf --enable-atompaw=yes --enable-bigdft=yes --enable-etsf-io=yes --enable-libxc=yes --enable-linalg=yes --enable-netcdf=yes --enable-wannier90=yes; \
  	  make -j 16; \
