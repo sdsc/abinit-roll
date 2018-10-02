@@ -108,7 +108,7 @@ build: $(SRC_DIRS)
 	/bin/mkdir -p .abinit/tarballs
 	/bin/cp *gz .abinit/tarballs/
 	patch $(MAGMA_DIR)/Makefile patch-files/Makefile.patch
-	patch $(MAGMA_DIR)/make.inc-examples/make.inc.mkl-icc patch-files/make.inc.mkl-icc.patch
+	patch $(MAGMA_DIR)/make.inc-examples/make.inc.mkl-$(CC) patch-files/make.inc.mkl-$(CC).patch
 	patch $(SOURCE_DIR)/configure patch-files/configure.patch
 	( \
           $(MODULE_LOAD_CC); \
