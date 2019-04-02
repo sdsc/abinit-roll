@@ -137,7 +137,7 @@ build: $(SRC_DIRS)
  	      cd ../$(SOURCE_DIR); \
  	      make distclean; \
  	      export LD_LIBRARY_PATH=$(CACHE_DIR)/lib:/usr/lib64/nvidia:$${LD_LIBRARY_PATH}; \
-              if test -e "/usr/lib64/nvidia"; then \
+              if test -e "/usr/lib64/nvidia/libnvidia-fatbinaryloader.so"; then \
                     export LDFLAGS="-L/usr/lib64/nvidia $${LDFLAGS}"; \
                     export LIBS=-lnvidia-fatbinaryloader; \
               fi; \
