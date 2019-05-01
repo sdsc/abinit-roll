@@ -1,23 +1,20 @@
---- magma-2.2.0/Makefile	2016-11-20 17:21:13.000000000 -0800
-+++ patch-files/Makefile	2017-08-09 17:54:14.107170330 -0700
-@@ -73,7 +73,7 @@
-     GPU_TARGET += sm20
- endif
+--- magma-2.5.0/Makefile	2019-01-02 11:19:36.000000000 -0800
++++ patch-files/Makefile	2019-03-21 17:34:10.335834998 -0700
+@@ -69,11 +69,16 @@
+ # NVCC options for the different cards
+ # First, add smXX for architecture names
  ifneq ($(findstring Kepler, $(GPU_TARGET)),)
--    GPU_TARGET += sm30 sm35
-+    GPU_TARGET += sm30 sm35 sm37
+-    GPU_TARGET += sm_30 sm_35
++    GPU_TARGET += sm_35 sm_37
  endif
  ifneq ($(findstring Maxwell, $(GPU_TARGET)),)
-     GPU_TARGET += sm50 sm52
-@@ -121,6 +121,11 @@
-     NV_SM    += -gencode arch=compute_35,code=sm_35
-     NV_COMP  := -gencode arch=compute_35,code=compute_35
+     GPU_TARGET += sm_50
  endif
 +ifneq ($(findstring sm37, $(GPU_TARGET)),)
 +    MIN_ARCH ?= 370
 +    NV_SM    += -gencode arch=compute_37,code=sm_37
 +    NV_COMP  := -gencode arch=compute_37,code=compute_37
 +endif
- ifneq ($(findstring sm50, $(GPU_TARGET)),)
-     MIN_ARCH ?= 500
-     NV_SM    += -gencode arch=compute_50,code=sm_50
+ ifneq ($(findstring Pascal, $(GPU_TARGET)),)
+     GPU_TARGET += sm_60
+ endif

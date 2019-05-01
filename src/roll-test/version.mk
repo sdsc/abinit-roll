@@ -1,6 +1,6 @@
 NAME       = sdsc-abinit-roll-test
 VERSION    = 2
-RELEASE    = 1
+RELEASE    = 2
 PKGROOT    = /root/rolltests
 
 ifneq ("$(ROLLOPTS)", "$(subst cuda=,,$(ROLLOPTS))")

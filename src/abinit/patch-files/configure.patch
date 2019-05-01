@@ -1,32 +1,28 @@
---- abinit-8.4.2/configure	2017-06-09 11:36:44.000000000 -0700
-+++ patch-files/configure	2017-09-27 14:40:55.903533434 -0700
-@@ -27615,9 +27615,10 @@
+--- abinit-8.10.2/configure	2019-01-17 03:37:58.000000000 -0800
++++ patch-files/configure	2019-03-21 15:10:36.822219028 -0700
+@@ -27677,9 +27677,7 @@
    return 0;
  }
  _ACEOF
 -if ac_fn_c_try_link "$LINENO"; then :
 -  abi_gpu_cuda_serial="yes"
 -fi
-+#if ac_fn_c_try_link "$LINENO"; then :
-+#  abi_gpu_cuda_serial="yes"
-+#fi
 +abi_gpu_cuda_serial="yes"
  rm -f core conftest.err conftest.$ac_objext \
      conftest$ac_exeext conftest.$ac_ext
    { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${abi_gpu_cuda_serial}" >&5
-@@ -27650,11 +27651,12 @@
+@@ -27712,11 +27710,12 @@
    return 0;
  }
  _ACEOF
 -if ac_fn_c_try_link "$LINENO"; then :
 -  abi_gpu_cuda_old="no"
 -else
--  abi_gpu_cuda_old="yes"
--fi
 +#if ac_fn_c_try_link "$LINENO"; then :
 +#  abi_gpu_cuda_old="no"
 +#else
-+#  abi_gpu_cuda_old="yes"
+   abi_gpu_cuda_old="yes"
+-fi
 +#fi
 +abi_gpu_cuda_old="no"
  rm -f core conftest.err conftest.$ac_objext \
